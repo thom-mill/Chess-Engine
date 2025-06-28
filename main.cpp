@@ -25,7 +25,7 @@ int main() {
         //gui.update(game);
 
         window.clear();
-        gui.draw(window);  // draw everything via GUI
+        gui.draw(window, game);  // draw everything via GUI
         window.display();
     }
   return 0;

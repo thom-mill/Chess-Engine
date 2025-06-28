@@ -14,11 +14,13 @@ class GUI {
 public:
     std::map<char, sf::Texture*> textures;
     GUI();
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window, Game_State& game);
     void handleEvent(const sf::Event& event, Game_State& game);
     void update(const Game_State& game);
 private:
     const int TILE_SIZE = 75;
+    const int padding = 8;
+    sf::Font font;
 
     sf::Texture BB;
     sf::Texture BK;
