@@ -1,0 +1,5 @@
+# ninja log v6
+5	318	1751150462072619793	CMakeFiles/Chess-Engine.dir/game_state.cpp.o	ed57b737a75077d4
+5	382	1751151432148451604	CMakeFiles/Chess-Engine.dir/main.cpp.o	220fe4843932f7eb
+383	433	1751151432526529979	Chess-Engine	4b7dd3e82f97f1f2
+6	383	1751151432149572330	CMakeFiles/Chess-Engine.dir/gui.cpp.o	4c7c050bf16cc5d4
