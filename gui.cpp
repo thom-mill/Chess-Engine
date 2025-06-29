@@ -37,6 +37,7 @@ GUI::GUI() {
     textures['q'] = &BQ;
     textures['p'] = &BP;
 
+    numKeys = 0;
 }
 
 void GUI::draw(sf::RenderWindow& window, Game_State& game) {
@@ -81,5 +82,21 @@ void GUI::draw(sf::RenderWindow& window, Game_State& game) {
     window.draw(input_message);
     window.draw(inputBox);
 
+}
 
+void GUI::handleEvent(const sf::Event& event, Game_State& game, sf::RenderWindow& window) {
+    sf::Keyboard::Key key = event.key.code;
+    if(key >= sf::Keyboard::A && key <= sf::Keyboard::Z || key >= sf::Keyboard::Num1 && key <= sf::Keyboard::Num8) {
+        char letter = 'A' + (key - sf::Keyboard::A);
+        sf::Text input;
+        input.setString(letter);
+        input.setFont(font);
+        input.setCharacterSize(characterSize);
+        input.setFillColor(sf::Color::Black);
+        input.setPosition(characterSize * numKeys + 625, 200);
+
+        window.draw(input);
+
+
+    }
 }
