@@ -8,13 +8,18 @@
 //GAME_STATE_H
 
 #include <vector>
+#include <stack>
+#include <SFML/Graphics.hpp>
 
 class Game_State {
 public:
   std::vector<std::vector<char>> board;
+  std::vector<char> playerMove;
   int round;
   Game_State();
-private:
+
+  void appendChar(sf::Event& event);
+
 
 
 

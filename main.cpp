@@ -6,8 +6,10 @@
 #include "gui.h"
 #include <sfml/Graphics.hpp>
 int main() {
-    const int WINDOWWIDTH = 800;
-    const int WINDOWHEIGHT = 600;
+    const int WINDOWWIDTH = 830;
+    const int WINDOWHEIGHT = 630;
+
+    const sf::Color background_color(64, 64, 64);
     sf::RenderWindow window(sf::VideoMode(WINDOWWIDTH, WINDOWHEIGHT), "Chess Game");
     Game_State game;
     GUI gui;
@@ -21,7 +23,7 @@ int main() {
                 window.close();
 
             if(event.type == sf::Event::KeyPressed && !keyDown) {
-                gui.handleEvent(event, game, window);
+                game.appendChar(event);
                 keyDown = true;
             }
             if(event.type == sf::Event::KeyReleased)
@@ -31,7 +33,7 @@ int main() {
 
         //gui.update(game);
 
-        window.clear();
+        window.clear(background_color);
         gui.draw(window, game);  // draw everything via GUI
         window.display();
     }

@@ -19,9 +19,12 @@ public:
     void update(const Game_State& game);
 private:
     int numKeys;
+    const int SCREENWIDTH = 830;
+    const int SCREENHEIGHT = 630;
     const int characterSize = 15;
     const int TILE_SIZE = 75;
     const int padding = 8;
+    const int margin = 30;
     sf::Font font;
 
     sf::Texture BB;

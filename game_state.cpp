@@ -8,13 +8,34 @@
 
 Game_State::Game_State() {
     board =
-        {{'R', 'N', 'B', 'K', 'Q', 'B', 'N', 'R'},
-        {'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
-        {'.', '.', '.', '.', '.', '.', '.', '.',},
-        {'.', '.', '.', '.', '.', '.', '.', '.',},
-        {'.', '.', '.', '.', '.', '.', '.', '.',},
-        {'.', '.', '.', '.', '.', '.', '.', '.',},
+        {
+        {'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'},
         {'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
-        {'r', 'n', 'b', 'k', 'q', 'b', 'n', 'r'}};
+        {'.', '.', '.', '.', '.', '.', '.', '.',},
+        {'.', '.', '.', '.', '.', '.', '.', '.',},
+        {'.', '.', '.', '.', '.', '.', '.', '.',},
+        {'.', '.', '.', '.', '.', '.', '.', '.',},
+        {'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
+        {'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'}
+        };
     round = 1;
+}
+
+void Game_State::appendChar(sf::Event& event) {
+    sf::Keyboard::Key key = event.key.code;
+    if (key >= sf::Keyboard::A && key <= sf::Keyboard::Z) {
+        char c = 'A' + (key - sf::Keyboard::A);
+        playerMove.push_back(c);
+    }
+    else if(key >= sf::Keyboard::Num1 && key <= sf::Keyboard::Num8) {
+        char c = '1' + (key - sf::Keyboard::Num1);
+        playerMove.push_back(c);
+    }
+    else if(key == sf::Keyboard::Hyphen) {
+        char c = '-' + (key - sf::Keyboard::Hyphen);
+        playerMove.push_back(c);
+    }
+    else if(key == sf::Keyboard::Backspace && !playerMove.empty()) {
+        playerMove.pop_back();
+    }
 }

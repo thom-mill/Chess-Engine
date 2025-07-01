@@ -38,6 +38,8 @@ GUI::GUI() {
     textures['p'] = &BP;
 
     numKeys = 0;
+
+    sf::Color darkTiles(10,94,49);
 }
 
 void GUI::draw(sf::RenderWindow& window, Game_State& game) {
@@ -45,13 +47,36 @@ void GUI::draw(sf::RenderWindow& window, Game_State& game) {
     for(int row = 0; row < 8; row++) {
         for(int col = 0; col < 8; col++) {
             sf::RectangleShape tile(sf::Vector2f(TILE_SIZE,TILE_SIZE));
-            tile.setPosition(col * TILE_SIZE, row * TILE_SIZE);
+            tile.setPosition(col * TILE_SIZE + margin, row * TILE_SIZE);
             if((row + col) % 2 == 0)
-                tile.setFillColor(sf::Color::White);
+                tile.setFillColor(sf::Color(240,240,240));
             else
-                tile.setFillColor(sf::Color::Cyan);
+                tile.setFillColor(sf::Color(10,94,49));
             window.draw(tile);
         }
+    }
+    //draw letters/numbers coordinates
+    for(int i = 0; i < 8; i++) {
+        sf::Text letter;
+        letter.setFont(font);
+        letter.setCharacterSize(25);
+        char c = 'A' + i;
+        letter.setString(std::string(1, c));
+        letter.setStyle(sf::Text::Bold);
+        letter.setFillColor(sf::Color(240,240,240));
+        letter.setPosition(margin + TILE_SIZE / 2.3 + TILE_SIZE * i, SCREENHEIGHT - margin);
+
+        sf::Text digit;
+        digit.setFont(font);
+        digit.setCharacterSize(25);
+        digit.setStyle(sf::Text::Bold);
+        digit.setFillColor(sf::Color(240,240,240));
+        char d = '8' - i;
+        digit.setString(std::string(1, d));
+        digit.setPosition(6, margin + TILE_SIZE * i);
+
+        window.draw(letter);
+        window.draw(digit);
     }
     //draw pieces according to game_state class
     for(int i = 0; i < 8; i++) {
@@ -60,7 +85,7 @@ void GUI::draw(sf::RenderWindow& window, Game_State& game) {
             if(c != '.') {
                 sf::Sprite piece;
                 piece.setTexture(*textures[c]);
-                piece.setPosition(j * TILE_SIZE + padding, i * TILE_SIZE + padding);
+                piece.setPosition(j * TILE_SIZE + padding + margin, i * TILE_SIZE + padding);
                 window.draw(piece);
             }
         }
@@ -71,32 +96,32 @@ void GUI::draw(sf::RenderWindow& window, Game_State& game) {
     input_message.setCharacterSize(20);
     input_message.setFillColor(sf::Color::White);
     input_message.setString("Input move");
-    input_message.setPosition(sf::Vector2f(640, 150));
+    input_message.setPosition(sf::Vector2f(SCREENWIDTH / 1.24, SCREENHEIGHT / 4.2));
     input_message.setStyle(sf::Text::Bold | sf::Text::Underlined);
 
     sf::RectangleShape inputBox;
     inputBox.setSize(sf::Vector2f(150, 25));
-    inputBox.setPosition(625, 200);
-    inputBox.setFillColor(sf::Color::White);
+    inputBox.setPosition(SCREENWIDTH / 1.27, SCREENHEIGHT / 3.15);
+    inputBox.setFillColor(sf::Color(240,240,240));
 
-    window.draw(input_message);
     window.draw(inputBox);
 
-}
+    //player move
+    numKeys = 0;
+    if(!game.playerMove.empty()) {
+        for(auto bit : game.playerMove) {
+            sf::Text digit;
+            digit.setFont(font);
+            digit.setCharacterSize(characterSize);
+            digit.setString(std::string(1,bit));
+            digit.setFillColor(sf::Color::Black);
+            digit.setPosition(sf::Vector2f(SCREENWIDTH / 1.26 + (numKeys * (characterSize-5)), 200));
+            window.draw(digit);
 
-void GUI::handleEvent(const sf::Event& event, Game_State& game, sf::RenderWindow& window) {
-    sf::Keyboard::Key key = event.key.code;
-    if(key >= sf::Keyboard::A && key <= sf::Keyboard::Z || key >= sf::Keyboard::Num1 && key <= sf::Keyboard::Num8) {
-        char letter = 'A' + (key - sf::Keyboard::A);
-        sf::Text input;
-        input.setString(letter);
-        input.setFont(font);
-        input.setCharacterSize(characterSize);
-        input.setFillColor(sf::Color::Black);
-        input.setPosition(characterSize * numKeys + 625, 200);
-
-        window.draw(input);
-
-
+            numKeys++;
+        }
     }
+
+    window.draw(input_message);
 }
+
