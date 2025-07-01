@@ -19,6 +19,10 @@ public:
   Game_State();
 
   void appendChar(sf::Event& event);
+private:
+  bool validateMove(std::string& move);
+  bool validateHelper(char piece, int startRow, int startCol, int endRow, int endCol, bool whiteToMove);
+  void updateBoard(std::string& move);
 
 
 
