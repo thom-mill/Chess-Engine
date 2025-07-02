@@ -150,7 +150,7 @@ bool Game_State::validateHelper(char movePiece, int row, int col, int endRow, in
     }
     if(movePiece == 'n' && !whiteToMove) {
         if(abs(row - endRow) == 1 && abs(col - endCol) == 2 || abs(row - endRow) == 2 && abs(col - endCol) == 1) {
-            if(board[endRow][endCol] == '.' || (board[endRow][endCol] >= 'A' && board[endRow][endCol] <= 'A'))
+            if(board[endRow][endCol] == '.' || (board[endRow][endCol] >= 'A' && board[endRow][endCol] <= 'Z'))
                 return true;
         }
         return false;
@@ -160,7 +160,25 @@ bool Game_State::validateHelper(char movePiece, int row, int col, int endRow, in
     //======================================
     if(movePiece == 'B' && whiteToMove) {
         if(abs(row-endRow) == abs(col-endCol) && (board[endRow][endCol] == '.' || (board[endRow][endCol] >= 'a' && board[endRow][endCol] <= 'z'))) {
-            for(int i = endCol )
+            int dx, dy;
+            if(endRow > row && endCol > col) {
+                dx = 1;
+                dy = 1;
+            }
+            else if(endRow > row) {
+                dx = -1;
+                dy = 1;
+            }
+            else if(endCol > col) {
+                dx = 1;
+                dy = -1;
+            }
+            else {
+                dx = -1;
+                dy = -1;
+            }
+            
+
         }
     }
     if(movePiece == 'b' && !whiteToMove) {
@@ -168,5 +186,45 @@ bool Game_State::validateHelper(char movePiece, int row, int col, int endRow, in
 
         }
     }
+    //======================================
+    //==============ROOK LOGIC==============
+    //======================================
+    if(movePiece == 'R' && whiteToMove) {
+        if(endRow == row && (board[endRow][endCol] == '.' || (board[endRow][endCol] >= 'a' && board[endRow][endCol] <= 'z'))) {
+            int toRight = (endCol > col) ? 1 : -1;
+            for(int i = col + toRight; abs(i-endCol) >= 1; i += (1*toRight)) {
+                if(board[row][i] != '.')
+                    return false;
+            }
+            return true;
+        }
+        if(endCol == col && (board[endRow][endCol] == '.' || (board[endRow][endCol] >= 'a' && board[endRow][endCol] <= 'z'))) {
+            int toDown = (endRow > row) ? 1 : -1;
+            for(int i = row + toDown; abs(i-endRow) >= 1; i += (1*toDown)) {
+                if(board[i][col] != '.')
+                    return false;
+            }
+            return true;
+        }
+    }
+    if(movePiece == 'r' && !whiteToMove) {
+        if(endRow == row && (board[endRow][endCol] == '.' || (board[endRow][endCol] >= 'A' && board[endRow][endCol] <= 'Z'))) {
+            int toRight = (endCol > col) ? 1 : -1;
+            for(int i = col + toRight; abs(i-endCol) >= 1; i += (1*toRight)) {
+                if(board[row][i] != '.')
+                    return false;
+            }
+            return true;
+        }
+        if(endCol == col && (board[endRow][endCol] == '.' || (board[endRow][endCol] >= 'A' && board[endRow][endCol] <= 'Z'))) {
+            int toDown = (endRow > row) ? 1 : -1;
+            for(int i = row + toDown; abs(i-endRow) >= 1; i += (1*toDown)) {
+                if(board[i][col] != '.')
+                    return false;
+            }
+            return true;
+        }
+    }
+
     return false;
 }
